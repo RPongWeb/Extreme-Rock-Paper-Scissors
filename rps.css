@@ -1,0 +1,38 @@
+div
+{
+	text-align : center;
+	font : bold 24pt calibri;
+}
+
+h3
+{
+	width : 40%;
+	text-align : center;
+	font : bold 24pt calibri;
+	float : right;
+}
+
+h4
+{
+	width : 40%;
+	text-align : center;
+	font : bold 24pt calibri;
+	float : left;
+}
+
+h5
+{
+	text-align : center;
+}
+
+h6
+{
+	text-align : center;
+	font : bold 36pt goudy stout;
+}
+
+img, span
+{
+	padding : 0px 20px;
+	width : 125px;
+}

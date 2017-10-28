@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!-- Ricky Pong -->
+<html>
+	<head>
+		<title> Rock Paper Scissor </title>
+		<link rel = "stylesheet" href = "rps.css" />
+		<style> img:hover{cursor : pointer;} </style>
+		<script> 
+			function initialize()
+			{
+				//Constants
+				PAPER = 1, SCISSOR = 2, ROCK = 3;
+				DRAW = 0, PLAYER = 1, COMPUTER = 2;
+				
+				//Game variables including one each for the player's and computer's selection and one for the roundResult.
+				playerSelection = -1;
+				computerSelection = -1;
+				playerPaper = 5;
+				playerScissor = 5;
+				playerRock = 5;
+				computerPaper = 5;
+				computerScissor = 5;
+				computerRock = 5;
+				
+				jplayer = document.getElementById("player");
+				jcomputer = document.getElementById("computer");
+				messageOutput = document.getElementById("msgspn");
+				computerImage = document.getElementById("compimg");
+				roundResultOutput = document.getElementById("roundResultdiv");
+				headElement = document.getElementById("heading");
+				
+				roundResult = PLAYER;
+				gameResult = 0;
+			}
+			
+			function runGame(selection)
+			{
+				
+				validPlayerSelection = false;
+				playerSelection = selection;
+				
+				if (playerPaper == 10 && playerScissor == 10 && playerRock == 10 || playerPaper == 0 && playerScissor == 0 && playerRock == 0)
+				{return "";}
+				
+				if (playerSelection == PAPER && playerPaper > 0)
+				{validPlayerSelection = true;}
+				
+				if (playerSelection == SCISSOR && playerScissor > 0)
+				{validPlayerSelection = true;}
+				
+				if (playerSelection == ROCK && playerRock > 0)
+				{validPlayerSelection = true;}
+				
+				if (validPlayerSelection == true)
+				{
+					makeComputerSelection();
+					determineWinner();
+					determineExchange();
+					displayResult();
+				}
+			}
+			
+			function makeComputerSelection()
+			{
+				validSelection = false;
+				while (validSelection == false)
+				{
+					computerSelection = parseInt(Math.random() * 3) + 1;
+					
+					if (computerSelection == PAPER && computerPaper > 0)
+					{validSelection = true;}
+					
+					if (computerSelection == SCISSOR && computerScissor > 0)
+					{validSelection = true;}
+					
+					if (computerSelection == ROCK && computerRock > 0)
+					{validSelection = true;}
+				}
+			}
+			
+			function determineWinner()
+			{
+				if (computerSelection == PAPER && playerSelection == ROCK)
+				{
+					roundResult = COMPUTER;
+				}
+				else if (computerSelection == ROCK && playerSelection == PAPER)
+				{
+					roundResult = PLAYER;
+				}
+				else if (computerSelection > playerSelection)
+				{
+					roundResult = COMPUTER;
+				}
+				else if (computerSelection < playerSelection)
+				{
+					roundResult = PLAYER;
+				}
+				else roundResult = DRAW;
+			}
+			
+			function determineExchange()
+			{
+				if (playerSelection == PAPER && roundResult == COMPUTER)
+				{
+					playerPaper = playerPaper - 1;
+					computerPaper = computerPaper + 1;
+				}
+			
+				if (playerSelection == SCISSOR && roundResult == COMPUTER)
+				{
+					playerScissor = playerScissor - 1;
+					computerScissor = computerScissor + 1;
+				}
+				
+				if (playerSelection == ROCK && roundResult == COMPUTER)
+				{
+					playerRock = playerRock - 1;
+					computerRock = computerRock + 1;
+				}
+				
+				if (computerSelection == PAPER && roundResult == PLAYER)
+				{
+					playerPaper = playerPaper + 1;
+					computerPaper = computerPaper - 1;
+				}
+				
+				if (computerSelection == SCISSOR && roundResult == PLAYER)
+				{
+					playerScissor = playerScissor + 1;
+					computerScissor = computerScissor - 1;
+				}
+				
+				if (computerSelection == ROCK && roundResult == PLAYER)
+				{
+					playerRock = playerRock + 1;
+					computerRock = computerRock - 1;
+				}
+				
+				if (computerPaper == 0 && computerScissor == 0 && computerRock == 0)
+				{
+					gameResult = PLAYER;
+				}
+				
+				if (playerPaper == 0 && playerScissor == 0 && playerRock == 0)
+				{
+					gameResult = COMPUTER;
+				}
+			}
+			
+			function displayResult()
+			{
+				messageOutput.innerHTML = "Your Opponent Selected:";
+				
+				if (computerSelection == PAPER)
+				{
+					computerImage.src = "images/paper.png";
+				}
+				
+				if (computerSelection == ROCK)
+				{
+					computerImage.src = "images/rock.png";
+				}
+				
+				if (computerSelection == SCISSOR)
+				{
+					computerImage.src = "images/scissor.png";
+				}
+				
+				if (roundResult == PLAYER)
+				{
+					roundResultOutput.innerHTML = "YOU WIN!!!";
+				}
+				
+				if (roundResult == COMPUTER)
+				{
+					roundResultOutput.innerHTML = "YOU LOSE!!!";
+				}
+				
+				if (roundResult == DRAW)
+				{
+					roundResultOutput.innerHTML = "DRAW!!!";
+				}
+				
+				if (gameResult == PLAYER)
+				{
+					roundResultOutput.innerHTML = "TOTAL VICTORY!!! YOU HAVE WON!";
+				}
+				
+				if (gameResult == COMPUTER)
+				{
+					roundResultOutput.innerHTML = "GAME OVER!!! THE COMPUTER WON";
+				}
+				
+				jplayer.innerHTML = "You have " + playerPaper + " paper, " + playerScissor + " scissor, " + 
+				"and " + playerRock + " rock.";
+				jcomputer.innerHTML = "The computer has " + computerPaper + " paper, " + computerScissor + " scissor, " + 
+				"and " + computerRock + " rock.";
+			}
+		</script>
+	
+	
+	
+	
+	
+	</head>
+	<body onload = "initialize();">
+		<h6><span id = "heading"> Rock Paper Scissor!</span></h6>
+		<h4>
+			<span>Your Weapons</span><br /><br />
+			<img onclick = "runGame(ROCK)" src = "images/rock.png" /><br />
+			<img onclick = "runGame(SCISSOR)" src = "images/scissor.png" /><br />
+			<img onclick = "runGame(PAPER)" src = "images/paper.png" /><br />
+			<span id = "player"></span>
+		</h4>
+		<h3>
+			<span id = "msgspn">Your Opponent</span><br /><br />
+			<img id = "compimg" src = "" /><br>
+			<span id = "computer"> </span>
+		</h3>
+		<h5>
+			<img src = "images/ref.png" />
+		</h5>
+		<div id = "roundResultdiv"></div>
+		
+	</body>
+</html>
